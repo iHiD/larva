@@ -30,7 +30,7 @@ module Larva
     end
 
     def normal_process
-      if self.process
+      if respond_to?(:process) && self.process
         Propono.config.logger.info "Message Processed: #{message}"
       else
         Propono.config.logger.info "Unrecognized event type, entity: #{entity} action: #{action}."

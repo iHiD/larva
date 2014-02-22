@@ -49,7 +49,7 @@ module Larva
       NormalProcessor.process(message)
     end
 
-    def test_process_logs_message
+    def test_process_logs_error_with_false_handler
       entity = "media_file"
       action = "processed"
       message = {entity: entity, action: action, media_file_id: "8"}
@@ -59,6 +59,17 @@ module Larva
       Propono.config.logger.expects(:info).with(output)
       NormalProcessor.any_instance.expects(:process).returns(false)
       NormalProcessor.process(message)
+    end
+
+    def test_process_logs_error_with_no_handler
+      entity = "comment"
+      action = "created"
+      message = {entity: entity, action: action, media_file_id: "8"}
+      output = "Unrecognized event type, entity: #{entity} action: #{action}."
+
+      Propono.config.logger.stubs(:info)
+      Propono.config.logger.expects(:info).with(output)
+      MetaProcessor.process(message)
     end
   end
 end

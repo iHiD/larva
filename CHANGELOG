@@ -1,3 +1,6 @@
+# 0.4.1 / 2014-02-22
+* [FEATURE] Remove need for process method
+
 # 0.4.0 / 2014-02-22
 * [FEATURE] Add meta-programming-based processors.
 
