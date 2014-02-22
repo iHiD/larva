@@ -18,6 +18,30 @@ And then execute:
 
 ## Usage
 
+Larva provides you with listeners, processors and a worker pool to build an application that listens and responds to Propono messages. 
+
+Here is a sample application. This forms the basis of a rake task for most Meducation daemons.
+
+```ruby
+require 'larva'
+
+# Setup Config for Filum and Propono
+
+class MyProcessor < Larva::Processor
+  def process(message)
+    if entity == "comment" && action == "created"
+      # Do something...
+    else
+      false
+    end
+  end
+end
+
+processors = {my_topic: MyProcessor}
+Larva::WorkerPool.start(processors, "queue-suffix")
+
+```
+
 ### Listeners
 
 Larva Listeners provide an easy way of listening to a Propono topic and processing the message, complete with lots of logging through Filum.
@@ -51,6 +75,20 @@ Propono.publish(:my_topic, {entity: "comment", action: "created", id: 8}
 ```
 
 With this code `MyProcessor#process` will get called for each message, with extra logging around the call. Within the class you have access to `message`, `action`, `entity` and `id` methods.
+
+### Worker Pool
+
+The worker pool creates a listener for each topic, and proxies messages to the associated processors. If any processors die, the application will die.
+
+Creating a worker pool is trivial:
+
+```ruby
+processors = {
+  my_topic_1: MyProcessor1
+  my_topic_2: MyProcessor2
+}
+Larva::WorkerPool.start(processors, "queue-suffix")
+```
 
 ### Is it any good?
 
