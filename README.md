@@ -23,13 +23,34 @@ And then execute:
 Larva Listeners provide an easy way of listening to a Propono topic and processing the message, complete with lots of logging through Filum.
 
 ```ruby
+Larva::Listener.listen(:my_topic, processor, "queue_suffix")
+```
+
+This will listen for messages on :my_topic and pass them to `processor.process`. It will log what is happening via Filum.
+
+### Processors
+
+Processors are used by listeners to handle the messages that are received. You are expected to subclass `Lavar::Processor` and implement `process`. 
+
+Processors expect you to have an `entity` and `action` fields in your messages.
+
+For example:
+
+```ruby
 class MyProcessor
-  def self.process(message)
+  def process(message)
+    if entity == "comment" && action == "created"
+      # Do something...
+    else
+      false
+    end
   end
 end
-
-Larva::Listener.listen(:my_topic, MyProcessor, "queue_suffix")
+Larva::Listener.listen(:my_topic, MyProcessor, "")
+Propono.publish(:my_topic, {entity: "comment", action: "created", id: 8}
 ```
+
+With this code `MyProcessor#process` will get called for each message, with extra logging around the call. Within the class you have access to `message`, `action`, `entity` and `id` methods.
 
 ### Is it any good?
 
