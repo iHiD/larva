@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["jeremy@meducation.net"]
   spec.description   = %q{Meducation helper services for our pub/sub network}
   spec.summary       = %q{Some Meducation specific helper files for ur pub/sub network}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/meducation/larva"
   spec.license       = "AGPL3"
 
   spec.files         = `git ls-files`.split($/)
