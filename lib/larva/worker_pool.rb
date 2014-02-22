@@ -1,13 +1,12 @@
 module Larva
   class WorkerPool
-    def self.start(processors, queue_suffix)
-      new(processors, queue_suffix).start
+    def self.start(processors)
+      new(processors).start
     end
 
-    attr_reader :processors, :queue_suffix, :workers
-    def initialize(processors, queue_suffix)
+    attr_reader :processors, :workers
+    def initialize(processors)
       @processors = processors
-      @queue_suffix = queue_suffix
     end
 
     def start
@@ -25,7 +24,7 @@ module Larva
     end
 
     def start_worker(topic, processor)
-      Larva::Listener.listen(topic, processor, queue_suffix)
+      Larva::Listener.listen(topic, processor)
     rescue => e
       logger.error "Unexpected listener termination: #{e} #{e.backtrace}"
     end
