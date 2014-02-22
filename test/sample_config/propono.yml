@@ -1,0 +1,13 @@
+development:
+  access_key: BADASSDEVKEY
+  secret_key: SCARYDEVSECRET
+  region: eu-west-1
+  application_name: development_daemon
+  queue_suffix: -dev
+
+production:
+  access_key: BADASSPRODUCTIONKEY
+  secret_key: SCARYPRODUCTIONSECRET
+  region: eu-west-1
+  application_name: daemon
+  queue_suffix:

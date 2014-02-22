@@ -1,0 +1,6 @@
+development:
+  access_id: Daemon
+  secret_key: 'foobar'
+
+production:
+  access_id: Daemon
