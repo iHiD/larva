@@ -2,6 +2,15 @@ require File.expand_path('../test_helper', __FILE__)
 
 module Larva
   class ProcessorTest < Minitest::Test
+
+    class MetaProcessor < Processor
+      def media_file_processed; end
+    end
+
+    class NormalProcessor < Processor
+      def process; end
+    end
+
     def test_initialize_should_extract_action_and_entity
       entity = "media_file"
       action = "processed"
@@ -11,24 +20,24 @@ module Larva
       assert_equal action, processor.action
     end
 
-    class GoodProcessor < Processor
-      def process
-        true
-      end
-    end
-
-    class BadProcessor < Processor
-      def process
-        false
-      end
-    end
-
     def test_process_logs_message
       message = {entity: "media_file", action: "processed", media_file_id: "8"}
       output = "Processing message: #{message}"
       Propono.config.logger.stubs(:info)
       Propono.config.logger.expects(:info).with(output)
-      GoodProcessor.process(message)
+      NormalProcessor.process(message)
+    end
+
+    def test_process_calls_meta_method
+      message = {entity: "media_file", action: "processed", media_file_id: "8"}
+      MetaProcessor.any_instance.expects(:media_file_processed)
+      MetaProcessor.process(message)
+    end
+
+    def test_process_is_called_if_no_meta_method_exists
+      message = {entity: "media_file", action: "processed", media_file_id: "8"}
+      NormalProcessor.expects(:process)
+      NormalProcessor.process(message)
     end
 
     def test_process_logs_success
@@ -36,7 +45,8 @@ module Larva
       output = "Message Processed: #{message}"
       Propono.config.logger.stubs(:info)
       Propono.config.logger.expects(:info).with(output)
-      GoodProcessor.process(message)
+      NormalProcessor.any_instance.expects(:process).returns(true)
+      NormalProcessor.process(message)
     end
 
     def test_process_logs_message
@@ -47,7 +57,8 @@ module Larva
 
       Propono.config.logger.stubs(:info)
       Propono.config.logger.expects(:info).with(output)
-      BadProcessor.process(message)
+      NormalProcessor.any_instance.expects(:process).returns(false)
+      NormalProcessor.process(message)
     end
   end
 end

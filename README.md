@@ -18,9 +18,9 @@ And then execute:
 
 ## Usage
 
-Larva provides you with listeners, processors and a worker pool to build an application that listens and responds to Propono messages. 
+Larva provides you with listeners, processors and a worker pool to quickly build an application that listens and responds to Propono messages.
 
-Here is a sample application. This forms the basis of a rake task for most Meducation daemons.
+Here is a sample application that forms the basis of a rake task for most Meducation daemons.
 
 ```ruby
 require 'larva'
@@ -28,17 +28,16 @@ require 'larva'
 # Setup Config for Filum and Propono
 
 class MyProcessor < Larva::Processor
-  def process(message)
-    if entity == "comment" && action == "created"
-      # Do something...
-    else
-      false
-    end
+  def comment_created
+    # I get called when the message is received :)
   end
 end
 
 processors = {my_topic: MyProcessor}
 Larva::WorkerPool.start(processors, "queue-suffix")
+
+# In another application...
+Propono.publish(:my_topic, {entity: "comment", action: "created", id: 8}
 
 ```
 
@@ -54,27 +53,42 @@ This will listen for messages on :my_topic and pass them to `processor.process`.
 
 ### Processors
 
-Processors are used by listeners to handle the messages that are received. You are expected to subclass `Lavar::Processor` and implement `process`. 
+Processors are used by listeners to handle the messages that are received.
 
-Processors expect you to have an `entity` and `action` fields in your messages.
+If your messages have an `entity` and `action` fields, then you can create methods named `#{entity}_#{action}, which get called when a message is received.
 
 For example:
 
 ```ruby
-class MyProcessor
-  def process(message)
-    if entity == "comment" && action == "created"
-      # Do something...
-    else
-      false
-    end
+class MyProcessor < Larva::Processor
+  def comment_created
+    # I get called for the first message
   end
 end
 Larva::Listener.listen(:my_topic, MyProcessor, "")
 Propono.publish(:my_topic, {entity: "comment", action: "created", id: 8}
 ```
 
-With this code `MyProcessor#process` will get called for each message, with extra logging around the call. Within the class you have access to `message`, `action`, `entity` and `id` methods.
+If those methods do not exist, then a method called `process` is called. This method has acccess to `message`, `action`, `entity` and `id` fields. If this returns true, then the message is considered processed, else if it returns false, an error wil be logged.
+
+For example:
+
+``` ruby
+class MyProcessor
+  def process
+    if message[:foo] == bar
+      # Larva will consider this message processed successfully
+      true
+    else
+      # An error is logged for this message
+      false
+    end
+  end
+end
+Larva::Listener.listen(:my_topic, MyProcessor, "")
+Propono.publish(:my_topic, {foo: "bar"} # -> Will be logged as a success
+Propono.publish(:my_topic, {foo: "meh"} # -> Will be logged as unprocessed.
+```
 
 ### Worker Pool
 
@@ -102,7 +116,7 @@ We'd love to have you involved. Please read our [contributing guide](https://git
 
 ### Contributors
 
-This project is managed by the [Meducation team](http://company.meducation.net/about#team). 
+This project is managed by the [Meducation team](http://company.meducation.net/about#team).
 
 These individuals have come up with the ideas and written the code that made this possible:
 

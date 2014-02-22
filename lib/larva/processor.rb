@@ -14,6 +14,22 @@ module Larva
 
     def process_with_logging
       Propono.config.logger.info "Processing message: #{message}"
+      meta_process || normal_process
+    end
+
+    private
+
+    def meta_process
+      meta_method = "#{entity}_#{action}"
+      if respond_to? meta_method
+        self.send(meta_method)
+        true
+      else
+        false
+      end
+    end
+
+    def normal_process
       if self.process
         Propono.config.logger.info "Message Processed: #{message}"
       else
