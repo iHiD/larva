@@ -54,6 +54,7 @@ class DaemonCreator
       File.open(path, 'w+') do |file|
         contents.gsub!("LarvaSpawn", @daemon_name.classify)
         contents.gsub!("larva_spawn", @daemon_name)
+        contents.gsub!("LARVA_SPAWN", @daemon_name.upcase)
         file.write(contents)
       end
     end

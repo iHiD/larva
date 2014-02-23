@@ -1,3 +1,6 @@
+# 0.6.2 / 2014-02-23
+* [FEATURE] Remove meducation_sdk by default.
+
 # 0.6.1 / 2014-02-23
 * [FEATURE] Remove larva version dependency in spawner.
 
