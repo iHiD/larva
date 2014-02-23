@@ -9,7 +9,7 @@ require 'larva/worker_pool'
 require 'larva/daemon'
 
 module Larva
-  def mock!
+  def self.mock!
     Mocker.mock!
   end
 end
