@@ -1,3 +1,6 @@
+# 0.6.3 / 2014-02-23
+* [FEATURE] Git init and commit new daemon.
+
 # 0.6.2 / 2014-02-23
 * [FEATURE] Remove meducation_sdk by default.
 

@@ -4,11 +4,19 @@
 [![Dependencies](https://gemnasium.com/meducation/larva.png?travis)](https://gemnasium.com/meducation/larva)
 [![Code Climate](https://codeclimate.com/github/meducation/larva.png)](https://codeclimate.com/github/meducation/larva)
 
-Larva is a selection of helper classes used in Meducation's [pub/sub](http://en.wikipedia.org/wiki/Publish-subscribe_pattern) network. It builds upon [Propono](github.com/meducation/propono) and [Filum](github.com/meducation/filum).
+Larva is a Ruby daemon builder based on top of the [Propono](github.com/meducation/propono) [pub/sub](http://en.wikipedia.org/wiki/Publish-subscribe_pattern) library and the [Filum](github.com/meducation/filum) logging library.
+
+It is the foundation for daemons in Meducation's infrastructure.
+
+Getting started is simple. Just install the gem and run 
+
+```ruby
+larva spawn my_daemon_name
+```
 
 ## Installation
 
-Add this line to your application's Gemfile:
+If you want to add this to an existing daemon, add this line to your application's Gemfile:
 
     gem 'larva'
 

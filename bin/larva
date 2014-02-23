@@ -24,10 +24,11 @@ class DaemonCreator
     rename_directories
     rename_files
     rename_file_contents
+    git_it_up
+    $stdout.puts "Daemon '#{@daemon_name}' created succesfully :)"
   end
 
   private
-
 
   def rename_directories
     Dir.glob("#{@daemon_dir}/**/*/").each do |original_path|
@@ -58,6 +59,10 @@ class DaemonCreator
         file.write(contents)
       end
     end
+  end
+
+  def git_it_up
+    `cd #{@daemon_name} && git init && git add . && git commit -am "Create basic daemon" && cd ..`
   end
 end
 
