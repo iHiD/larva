@@ -53,7 +53,7 @@ class DaemonCreator
       next unless File.file?(path)
       contents = File.read(path)
       File.open(path, 'w+') do |file|
-        contents.gsub!("LarvaSpawn", @daemon_name.classify)
+        contents.gsub!("LarvaSpawn", @daemon_name.camelize)
         contents.gsub!("larva_spawn", @daemon_name)
         contents.gsub!("LARVA_SPAWN", @daemon_name.upcase)
         file.write(contents)

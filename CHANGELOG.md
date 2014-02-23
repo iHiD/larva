@@ -1,3 +1,6 @@
+# 0.6.4 / 2014-02-23
+* [BUGFIX] Use camelize, not classify
+
 # 0.6.3 / 2014-02-23
 * [FEATURE] Git init and commit new daemon.
 
