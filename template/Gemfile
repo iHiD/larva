@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'larva', '0.5'
+gem 'larva'
 #gem 'meducation_sdk', '~> 1.0'
 
 gem 'rake'

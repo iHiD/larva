@@ -1,3 +1,6 @@
+# 0.6.1 / 2014-02-23
+* [FEATURE] Remove larva version dependency in spawner.
+
 # 0.6.0 / 2014-02-23
 * [FEATURE] Add larva binfile.
 
