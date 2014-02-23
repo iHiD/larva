@@ -10,6 +10,9 @@ require 'larva/worker_pool'
 require 'larva/daemon'
 
 module Larva
+  class LarvaError < StandardError
+  end
+
   def self.mock!
     Mocker.mock!
   end

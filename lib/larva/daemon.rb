@@ -10,11 +10,11 @@ module Larva
     # Allowed Options:
     #   :env - Defaults to development
     #   :meducation_sdk_secret_key - Defauls to looking in config file
-    def initialize(config_dir, logfile, processors, options = {})
-      @config_dir = config_dir
-      @logfile = logfile
+    def initialize(processors, options = {})
       @processors = processors
       @options = options
+      @config_dir = options.fetch(:config_dir) {raise LarvaError.new("Please provide :config_dir via options")}
+      @logfile = options.fetch(:logfile) {raise LarvaError.new("Please provide :logfile via options")}
       @env = options[:env] || "development"
     end
 
