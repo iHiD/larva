@@ -9,7 +9,19 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require "larva"
 
+module MeducationSDK
+  def self.config
+    @config ||= Struct.new(:access_id, :secret_key, :endpoint, :logger).new
+    if block_given?
+      yield @config
+    else
+      @config
+    end
+  end
+end
+
 class Minitest::Test
+
   def setup
     Fog.mock!
     Filum.setup('log/test.log')

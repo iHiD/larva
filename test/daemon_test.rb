@@ -1,18 +1,6 @@
 require File.expand_path('../test_helper', __FILE__)
 
 module Larva
-
-  module Daemon::MeducationSDK
-    def self.config
-      @config ||= Struct.new(:access_id, :secret_key, :logger).new
-      if block_given?
-        yield @config
-      else
-        @config
-      end
-    end
-  end
-
   class DaemonTest < Minitest::Test
     def test_workerpool_is_started
       processors = {foo: 'bar'}
@@ -29,17 +17,17 @@ module Larva
     def test_meducation_sdk_gets_config
       logfile = "Foobar"
       Daemon.start(File.expand_path('../sample_config', __FILE__), "foo.log", {})
-      assert_equal "Daemon", Daemon::MeducationSDK.config.access_id
-      assert_equal "foobar", Daemon::MeducationSDK.config.secret_key
-      assert_equal Filum.logger, Daemon::MeducationSDK.config.logger
+      assert_equal "Daemon", MeducationSDK.config.access_id
+      assert_equal "foobar", MeducationSDK.config.secret_key
+      assert_equal Filum.logger, MeducationSDK.config.logger
     end
 
     def test_meducation_sdk_gets_config_with_env
       logfile = "Foobar"
       Daemon.start(File.expand_path('../sample_config', __FILE__), "foo.log", {}, env: 'production')
-      assert_equal "Daemon", Daemon::MeducationSDK.config.access_id
-      assert_equal nil, Daemon::MeducationSDK.config.secret_key
-      assert_equal Filum.logger, Daemon::MeducationSDK.config.logger
+      assert_equal "Daemon", MeducationSDK.config.access_id
+      assert_equal nil, MeducationSDK.config.secret_key
+      assert_equal Filum.logger, MeducationSDK.config.logger
     end
 
     def test_propono_gets_config
