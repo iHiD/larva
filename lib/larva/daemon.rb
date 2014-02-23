@@ -15,15 +15,18 @@ module Larva
       @logfile = logfile
       @processors = processors
       @options = options
-      @env = options.fetch(:env, "development")
+      @env = options[:env] || "development"
     end
 
     def start
+      Filum.logger.info "Starting Workerpool"
       Larva::WorkerPool.start(@processors)
+      Filum.logger.info "Workerpool Finished"
     end
 
     def configure
       Filum.setup(@logfile)
+      Filum.logger.info "Configuring Daemon"
 
       if meducation_sdk_config = parse_config_file('meducation-sdk.yml')
         MeducationSDK.config do |config|
@@ -49,7 +52,9 @@ module Larva
     end
 
     def parse_config_file(filename)
-      YAML::load(ERB.new(File.read("#{@config_dir}/#{filename}")).result).stringify_keys[@env].symbolize_keys
+      contents = File.read("#{@config_dir}/#{filename}")
+      hash = YAML::load(contents)
+      hash.stringify_keys[@env].symbolize_keys
     rescue
       nil
     end

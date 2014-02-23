@@ -2,6 +2,7 @@
 * [FEATURE] Rely on Propono config for queue suffix.
 * [FEATURE] Add daemon support.
 * [FEATURE] Add mocking support.
+* [FEATURE] Add configuration to inherit from.
 
 # 0.4.1 / 2014-02-22
 * [FEATURE] Remove need for process method.

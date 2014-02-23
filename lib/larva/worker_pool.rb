@@ -30,7 +30,7 @@ module Larva
     end
 
     def keep_workers_alive
-      sleep(1) while workers.all? { |t| t.alive?  }
+      sleep(5) while workers.all? { |t| t.alive?  }
       logger.error "Some threads have died"
     end
 

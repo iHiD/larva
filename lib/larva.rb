@@ -2,6 +2,7 @@ require 'active_support/core_ext'
 require 'filum'
 require 'propono'
 
+require 'larva/configuration'
 require 'larva/mocker'
 require 'larva/listener'
 require 'larva/processor'
