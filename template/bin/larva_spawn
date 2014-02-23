@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# LOAD CENTRAL RVM PROFILE
+source /etc/profile.d/rvm.sh
+
+# SOURCE USER'S RVM MAGIC
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# SOURCE APP SPECIFIC ENV VARS
+[[ -e /etc/larva_spawn/larva_spawn-env ]] && source /etc/larva_spawn/larva_spawn-env 
+
+bundle exec rake larva_spawn:start ENV=production

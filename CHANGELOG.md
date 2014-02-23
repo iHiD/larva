@@ -1,4 +1,7 @@
-# 0.5.0 / 2014-02-22
+# 0.6.0 / 2014-02-23
+* [FEATURE] Add larva binfile.
+
+# 0.5.0 / 2014-02-23
 * [FEATURE] Rely on Propono config for queue suffix.
 * [FEATURE] Add daemon support.
 * [FEATURE] Add mocking support.

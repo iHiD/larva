@@ -1,0 +1,12 @@
+source 'https://rubygems.org'
+
+gem 'larva', '0.5'
+#gem 'meducation_sdk', '~> 1.0'
+
+gem 'rake'
+
+group :test do
+  gem 'minitest', '~> 5.0.8'
+  gem 'mocha', require: false
+end
+
