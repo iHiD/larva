@@ -3,7 +3,7 @@ require File.expand_path('../test_helper', __FILE__)
 module Larva
   class DaemonTest < Minitest::Test
     def config_dir
-      File.expand_path('../sample_config', __FILE__)
+      File.expand_path('../../template/config', __FILE__)
     end
 
     def logfile
@@ -34,26 +34,40 @@ module Larva
     end
 
     def test_meducation_sdk_gets_config
-      Daemon.start({}, config_dir: config_dir, logfile: logfile)
-      assert_equal "Daemon", MeducationSDK.config.access_id
-      assert_equal "foobar", MeducationSDK.config.secret_key
-      assert_equal Filum.logger, MeducationSDK.config.logger
+      sdk_yaml_path = File.expand_path('../../template/config/meducation-sdk.yml', __FILE__)
+      begin
+        optional_sdk_yaml_path = "#{sdk_yaml_path}.optional"
+        `cp #{optional_sdk_yaml_path} #{sdk_yaml_path}`
+        Daemon.start({}, config_dir: config_dir, logfile: logfile)
+        assert_equal "LarvaSpawn", MeducationSDK.config.access_id
+        assert_equal "foobar", MeducationSDK.config.secret_key
+        assert_equal Filum.logger, MeducationSDK.config.logger
+      ensure
+        `rm #{sdk_yaml_path}`
+      end
     end
 
     def test_meducation_sdk_gets_config_with_env
-      Daemon.start({}, config_dir: config_dir, logfile: logfile, env: 'production')
-      assert_equal "Daemon", MeducationSDK.config.access_id
-      assert_equal nil, MeducationSDK.config.secret_key
-      assert_equal Filum.logger, MeducationSDK.config.logger
+      sdk_yaml_path = File.expand_path('../../template/config/meducation-sdk.yml', __FILE__)
+      begin
+        optional_sdk_yaml_path = "#{sdk_yaml_path}.optional"
+        `cp #{optional_sdk_yaml_path} #{sdk_yaml_path}`
+        Daemon.start({}, config_dir: config_dir, logfile: logfile, env: 'production')
+        assert_equal "LarvaSpawn", MeducationSDK.config.access_id
+        assert_equal nil, MeducationSDK.config.secret_key
+        assert_equal Filum.logger, MeducationSDK.config.logger
+      ensure
+        `rm #{sdk_yaml_path}`
+      end
     end
 
     def test_propono_gets_config
       Daemon.start({}, config_dir: config_dir, logfile: logfile)
-      assert_equal "BADASSDEVKEY", Propono.config.access_key
-      assert_equal "SCARYDEVSECRET", Propono.config.secret_key
+      assert_equal "MY-DEV-ACCESS-KEY", Propono.config.access_key
+      assert_equal "MY-DEV-SECRET-KEY", Propono.config.secret_key
       assert_equal "eu-west-1", Propono.config.queue_region
-      assert_equal "development_daemon", Propono.config.application_name
-      assert_equal "-dev", Propono.config.queue_suffix
+      assert_equal "development_larva_spawn", Propono.config.application_name
+      assert_equal nil, Propono.config.queue_suffix
       assert_equal "pergo.meducation.net", Propono.config.udp_host
       assert_equal "9732", Propono.config.udp_port
       assert_equal Filum.logger, Propono.config.logger
@@ -61,10 +75,8 @@ module Larva
 
     def test_propono_gets_config_with_env
       Daemon.start({}, config_dir: config_dir, logfile: logfile, env: 'production')
-      assert_equal "BADASSPRODUCTIONKEY", Propono.config.access_key
-      assert_equal "SCARYPRODUCTIONSECRET", Propono.config.secret_key
-      assert_equal "eu-west-1", Propono.config.queue_region
-      assert_equal "daemon", Propono.config.application_name
+      assert_equal true, Propono.config.use_iam_profile
+      assert_equal "larva_spawn", Propono.config.application_name
       assert_equal nil, Propono.config.queue_suffix
       assert_equal "pergo.meducation.net", Propono.config.udp_host
       assert_equal "9732", Propono.config.udp_port

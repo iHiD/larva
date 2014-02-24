@@ -1,3 +1,9 @@
+# 0.6.5 / 2014-02-23
+* [FEATURE] Add extra logging to worker pool
+* [FEATURE] Remove upstart script
+* [FEATURE] Use IAM roles in spawned config
+* [FEATURE] Test template config, not sample config.
+
 # 0.6.4 / 2014-02-23
 * [BUGFIX] Use camelize, not classify
 
