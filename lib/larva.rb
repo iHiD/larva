@@ -3,6 +3,7 @@ require 'filum'
 require 'propono'
 
 require 'larva/configuration'
+require 'larva/configurator'
 require 'larva/mocker'
 require 'larva/listener'
 require 'larva/processor'
