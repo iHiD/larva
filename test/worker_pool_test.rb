@@ -6,15 +6,10 @@ module Larva
       WorkerPool.start({})
     end
 
-    def test_process_logs_start_message
+    def test_process_logs_start_and_end_messages
       Propono.config.logger.stubs(:info)
-      Propono.config.logger.expects(:info).with("Starting threads.")
-      WorkerPool.start({})
-    end
-
-    def test_process_logs_end_message
-      Propono.config.logger.stubs(:info)
-      Propono.config.logger.expects(:info).with("Threads Started.")
+      Propono.config.logger.expects(:info).with("Starting 0 threads.")
+      Propono.config.logger.expects(:info).with("0 threads started.")
       WorkerPool.start({})
     end
 
@@ -23,8 +18,9 @@ module Larva
       Propono.config.logger.expects(:error).with do |error|
         error.start_with?("Unexpected listener termination:")
       end
-      Propono.config.logger.expects(:error).with('Some threads have died')
-      WorkerPool.start({nil => nil})
+      Propono.config.logger.expects(:error).with('Listener for qux was dead')
+      Propono.config.logger.expects(:error).with('Some threads have died:')
+      WorkerPool.start({'qux' => nil})
     end
 
     def test_listen_is_called_correctly
