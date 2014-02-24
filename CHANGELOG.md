@@ -1,3 +1,6 @@
+# 0.7.0 / 2014-02-24
+* [FEATURE] Add configurator
+
 # 0.6.5 / 2014-02-23
 * [FEATURE] Add extra logging to worker pool
 * [FEATURE] Remove upstart script
