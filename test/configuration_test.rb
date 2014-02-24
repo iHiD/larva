@@ -14,4 +14,3 @@ module Larva
     end
   end
 end
-
