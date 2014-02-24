@@ -11,16 +11,18 @@ module Larva
 
     def start
       start_workers
-      keep_workers_alive if workers.count > 0
+      keep_workers_alive if @workers.count > 0
     end
 
     private
     def start_workers
-      logger.info "Starting threads."
+      logger.info "Starting #{processors.count} threads."
       @workers = processors.map do |topic, processor|
-        Thread.new { start_worker(topic, processor) }
+        worker = Thread.new { start_worker(topic, processor) }
+        worker[:name] = "Listener for #{topic}"
+        worker
       end
-      logger.info "Threads Started."
+      logger.info "#{@workers.count} threads started."
     end
 
     def start_worker(topic, processor)
@@ -30,8 +32,11 @@ module Larva
     end
 
     def keep_workers_alive
-      sleep(5) while workers.all? { |t| t.alive?  }
-      logger.error "Some threads have died"
+      sleep(5) while @workers.all? { |t| t.alive?  }
+      logger.error 'Some threads have died:'
+      @workers.each do |worker|
+        logger.error "#{worker[:name]} was #{worker.alive? ? 'alive' : 'dead'}"
+      end
     end
 
     def logger
