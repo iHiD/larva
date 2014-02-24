@@ -6,8 +6,7 @@ development:
   queue_suffix:
 
 production:
-  access_key: MY-PRODUCTION-ACCESS-KEY
-  secret_key: MY-PRODUCTION-SECRET-KEY
+  use_iam_profile: true
   region: eu-west-1
   application_name: larva_spawn
   queue_suffix:
