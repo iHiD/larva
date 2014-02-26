@@ -27,6 +27,19 @@ module Larva
       assert_equal logfile, Filum.logger.logfile
     end
 
+    def test_sdk_secret_key_can_be_overriden
+      sdk_yaml_path = File.expand_path('../../template/config/meducation-sdk.yml', __FILE__)
+      begin
+        optional_sdk_yaml_path = "#{sdk_yaml_path}.optional"
+        `cp #{optional_sdk_yaml_path} #{sdk_yaml_path}`
+        secret_key = "Foobar!"
+        Configurator.configure(logfile: logfile, config_dir: config_dir, meducation_sdk_secret_key: secret_key)
+        assert_equal secret_key, MeducationSDK.config.secret_key
+      ensure
+        `rm #{sdk_yaml_path}`
+      end
+    end
+
     def test_meducation_sdk_gets_config_in_dev
       sdk_yaml_path = File.expand_path('../../template/config/meducation-sdk.yml', __FILE__)
       begin

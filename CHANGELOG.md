@@ -1,3 +1,6 @@
+# 0.7.1 / 2014-02-26
+* [BUGFIX] Fix issue with SDK secret being incorrectly set to nil.
+
 # 0.7.0 / 2014-02-24
 * [FEATURE] Add configurator
 

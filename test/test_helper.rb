@@ -25,6 +25,7 @@ class Minitest::Test
   def setup
     Fog.mock!
     Filum.setup('log/test.log')
+    MeducationSDK.instance_variable_set(:@config, nil)
     Propono.config do |config|
       config.access_key = "test-access-key"
       config.secret_key = "test-secret-key"
