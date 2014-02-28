@@ -32,7 +32,11 @@ module Larva
     end
 
     def keep_workers_alive
-      sleep(5) while workers.all? { |t| t.alive?  }
+      while workers.all? { |t| t.alive?  }
+        logger.info 'All threads are alive.'
+        sleep(60) 
+      end
+
       logger.error 'Some threads have died:'
       workers.each do |worker|
         logger.error "#{worker[:name]} was #{worker.alive? ? 'alive' : 'dead'}"
