@@ -50,6 +50,7 @@ module Larva
         assert_equal "foobar", MeducationSDK.config.secret_key
         assert_equal Filum.logger, MeducationSDK.config.logger
         assert_equal "http://localhost:3000/system", MeducationSDK.config.endpoint
+        assert_equal "localhost", MeducationSDK.config.recommender_host
       ensure
         `rm #{sdk_yaml_path}`
       end
@@ -65,6 +66,7 @@ module Larva
         assert_equal nil, MeducationSDK.config.secret_key
         assert_equal Filum.logger, MeducationSDK.config.logger
         assert_equal nil, MeducationSDK.config.endpoint
+        assert_equal nil, MeducationSDK.config.recommender_host
       ensure
         `rm #{sdk_yaml_path}`
       end

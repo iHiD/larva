@@ -11,7 +11,7 @@ require "larva"
 
 module MeducationSDK
   def self.config
-    @config ||= Struct.new(:access_id, :secret_key, :endpoint, :logger).new
+    @config ||= Struct.new(:access_id, :secret_key, :endpoint, :logger, :recommender_host).new
     if block_given?
       yield @config
     else

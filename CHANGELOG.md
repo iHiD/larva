@@ -1,3 +1,7 @@
+# 0.8.0 / 2014-02-26
+* [FEATURE] Set recommender host in configuration
+* [FEATURE] Use /spi, not /system
+
 # 0.7.2 / 2014-02-26
 * [BUGFIX] Add logging every 60secs to worker pool.
 
