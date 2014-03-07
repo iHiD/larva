@@ -6,7 +6,7 @@ module Larva
 
       if const_defined?("MeducationSDK")
         MeducationSDK.config do |config|
-          config.endpoint         = "http://localhost:3000/system"
+          config.endpoint         = "http://localhost:3000/spi"
           config.recommender_host = "localhost"
           config.access_id        = "Daemon"
           config.secret_key       = "foobar"
