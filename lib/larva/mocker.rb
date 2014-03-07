@@ -6,10 +6,11 @@ module Larva
 
       if const_defined?("MeducationSDK")
         MeducationSDK.config do |config|
-          config.endpoint   = "http://localhost:3000/system"
-          config.access_id  = "Daemon"
-          config.secret_key = "foobar"
-          config.logger     = Filum.logger
+          config.endpoint         = "http://localhost:3000/system"
+          config.recommender_host = "localhost"
+          config.access_id        = "Daemon"
+          config.secret_key       = "foobar"
+          config.logger           = Filum.logger
         end
       end
 

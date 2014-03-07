@@ -1,3 +1,6 @@
+# 0.7.3 / 2014-02-26
+* [FEATURE] Set recommender host in configuration
+
 # 0.7.2 / 2014-02-26
 * [BUGFIX] Add logging every 60secs to worker pool.
 
