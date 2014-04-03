@@ -9,6 +9,7 @@ require 'larva/listener'
 require 'larva/processor'
 require 'larva/worker_pool'
 require 'larva/daemon'
+require 'larva/message_replayer'
 
 module Larva
   class LarvaError < StandardError
