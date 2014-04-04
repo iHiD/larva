@@ -1,5 +1,6 @@
 # 0.8.0 / 2014-04-04
 * [FEATURE] Move from /system to /spi
+* [BUGFIX] Fix broken daemon test in spawned daemons
 
 # 0.7.3 / 2014-04-03
 * [FEATURE] Support message replay through a utility class.
