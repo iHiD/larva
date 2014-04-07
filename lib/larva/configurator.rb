@@ -24,7 +24,7 @@ module Larva
 
           # Don't use fetch for these as nil values might be deliberately passed it
           config.secret_key = @options[:meducation_sdk_secret_key] || meducation_sdk_config[:secret_key]
-          config.endpoint   = @options[:meducation_sdk_endpoint ] || "http://localhost:3000/system" if @env == 'development'
+          config.endpoint   = @options[:meducation_sdk_endpoint ] || "http://localhost:3000/spi" if @env == 'development'
           config.logger     = Filum.logger
         end
       end

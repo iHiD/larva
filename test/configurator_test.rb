@@ -49,7 +49,7 @@ module Larva
         assert_equal "LarvaSpawn", MeducationSDK.config.access_id
         assert_equal "foobar", MeducationSDK.config.secret_key
         assert_equal Filum.logger, MeducationSDK.config.logger
-        assert_equal "http://localhost:3000/system", MeducationSDK.config.endpoint
+        assert_equal "http://localhost:3000/spi", MeducationSDK.config.endpoint
       ensure
         `rm #{sdk_yaml_path}`
       end
