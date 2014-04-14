@@ -1,3 +1,6 @@
+# 0.9.0 / 2014-04-12
+* [FEATURE] Change activesupport dependency to allow for Rails 4
+
 # 0.8.0 / 2014-04-04
 * [FEATURE] Move from /system to /spi
 * [BUGFIX] Fix broken daemon test in spawned daemons
