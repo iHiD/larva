@@ -1,3 +1,6 @@
+# 0.9.1 / 2014-04-30
+* [FEATURE] Raise exceptions when thread dies 
+
 # 0.9.0 / 2014-04-12
 * [FEATURE] Change activesupport dependency to allow for Rails 4
 

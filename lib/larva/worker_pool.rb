@@ -10,8 +10,14 @@ module Larva
     end
 
     def start
+      @running = true
       start_workers
-      keep_workers_alive if workers.count > 0
+      keep_workers_alive if workers.count > 0 
+    end
+   
+    def stop
+      logger.info "Request to stop worker pool accepted"
+      @running = false
     end
 
     private
@@ -32,7 +38,7 @@ module Larva
     end
 
     def keep_workers_alive
-      while workers.all? { |t| t.alive?  }
+      while @running && workers.all? { |t| t.alive?  }
         logger.info 'All threads are alive.'
         sleep(60) 
       end
@@ -41,6 +47,7 @@ module Larva
       workers.each do |worker|
         logger.error "#{worker[:name]} was #{worker.alive? ? 'alive' : 'dead'}"
       end
+      raise StandardError.new('Some threads have died') if @running
     end
 
     def logger

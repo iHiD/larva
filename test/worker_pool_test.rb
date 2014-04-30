@@ -22,7 +22,8 @@ module Larva
       Propono.config.logger.expects(:error).with('Some threads have died:')
       pool = WorkerPool.new({'qux' => nil})
       pool.stubs(:sleep)
-      pool.start
+      err = assert_raises(StandardError) { pool.start }
+      assert_equal 'Some threads have died', err.message
     end
 
     def test_listen_is_called_correctly
@@ -33,7 +34,18 @@ module Larva
       processor = mock
       Larva::Listener.expects(:listen).with(topic_name, processor)
       pool = WorkerPool.new({topic_name => processor})
+
       pool.expects(:sleep).with(60).at_least_once
+
+      Thread.any_instance.stubs(alive?: true)
+
+      Thread.new do
+        while true 
+          sleep(1)
+          pool.stop
+        end
+      end
+
       pool.start
     end
   end
