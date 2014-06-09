@@ -1,3 +1,6 @@
+# 0.9.2 / 2014-04-30
+* [BIGFIX] Do not add suffix to queue names - added by Propono.
+
 # 0.9.1 / 2014-04-30
 * [FEATURE] Raise exceptions when thread dies 
 

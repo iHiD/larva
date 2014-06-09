@@ -12,7 +12,7 @@ module Larva
     end
 
     def listen
-      queue_name = "#{topic_name}#{Propono.config.queue_suffix}"
+      queue_name = "#{topic_name}"
       Propono.config.logger.info "Starting to listen to queue #{queue_name}"
       Propono.listen_to_queue("#{queue_name}") do |message, context|
         Propono.config.logger.context_id = context[:id]

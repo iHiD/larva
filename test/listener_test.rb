@@ -4,18 +4,13 @@ module Larva
   class ListenerTest < Minitest::Test
     def test_listen_to_queue_is_called
       topic_name = "Foo"
-      queue_suffix = "bar"
-      Propono.config.queue_suffix = queue_suffix
-      Propono.expects(:listen_to_queue).with("#{topic_name}#{queue_suffix}")
+      Propono.expects(:listen_to_queue).with("#{topic_name}")
       Larva::Listener.listen(topic_name, nil)
     end
 
     def test_listener_logs_listening_message
       topic_name = "Foo"
-      queue_suffix = "bar"
-      Propono.config.queue_suffix = queue_suffix
-
-      message = "Starting to listen to queue #{topic_name}#{queue_suffix}"
+      message = "Starting to listen to queue #{topic_name}"
       Propono.config.logger.expects(:info).with(message)
       Propono.stubs(:listen_to_queue)
       Larva::Listener.listen(topic_name, nil)
