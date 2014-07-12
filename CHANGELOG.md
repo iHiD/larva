@@ -1,3 +1,6 @@
+# 1.0.0 / 2014-07-12
+* [FEATURE] Remove Meducation specific code and bump to 1.0.0
+
 # 0.9.2 / 2014-04-30
 * [BIGFIX] Do not add suffix to queue names - added by Propono.
 

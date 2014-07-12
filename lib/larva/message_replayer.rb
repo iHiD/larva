@@ -24,7 +24,7 @@ module Larva
       else
         messages.each do |msg|
           sqs_message = Propono::SqsMessage.new(msg)
-          puts "Message : #{sqs_message}"
+          Filum.logger.info "Message : #{sqs_message}"
           sqs.send_message(original_url, sqs_message.to_json_with_exception(StandardError.new "Fake Exception"))
           sqs.delete_message(failed_url, msg['ReceiptHandle'])
         end

@@ -1,10 +1,10 @@
-require 'larva_spawn/processors/media_file_processor'
+require 'larva_spawn/processors/user_processor'
 
 module LarvaSpawn
   class Daemon < Larva::Daemon
     def initialize(options = {})
       processors = {
-        media_file: MediaFileProcessor
+        user: UserProcessor
       }
       super(processors, options)
     end

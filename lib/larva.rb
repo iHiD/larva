@@ -2,14 +2,16 @@ require 'active_support/core_ext'
 require 'filum'
 require 'propono'
 
-require 'larva/configuration'
-require 'larva/configurator'
-require 'larva/mocker'
-require 'larva/listener'
-require 'larva/processor'
-require 'larva/worker_pool'
-require 'larva/daemon'
-require 'larva/message_replayer'
+require_relative 'larva/configuration'
+require_relative 'larva/configurator'
+require_relative 'larva/mocker'
+require_relative 'larva/listener'
+require_relative 'larva/processor'
+require_relative 'larva/worker_pool'
+require_relative 'larva/daemon'
+require_relative 'larva/message_replayer'
+
+require_relative 'larva/daemon_creator'
 
 module Larva
   class LarvaError < StandardError
