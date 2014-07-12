@@ -5,8 +5,8 @@ module Larva
     end
 
     attr_accessor :message, :action, :entity, :id
-    def initialize(message)
-      @message = message
+    def initialize(raw_message)
+      @message = HashWithIndifferentAccess.new(raw_message)
       @action = message[:action]
       @entity = message[:entity]
       @id = message[:id]

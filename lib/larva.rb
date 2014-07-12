@@ -2,6 +2,8 @@ require 'active_support/core_ext'
 require 'filum'
 require 'propono'
 
+require_relative 'larva/hash_with_indifferent_access' unless defined?(HashWithIndifferentAccess)
+
 require_relative 'larva/configuration'
 require_relative 'larva/configurator'
 require_relative 'larva/mocker'

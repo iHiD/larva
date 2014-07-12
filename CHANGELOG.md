@@ -1,3 +1,7 @@
+# 1.0.1 / 2014-07-12
+* [BUGFIX] Don't require that the logger is Filum.
+* [BUGFIX] Fix bug with message keys not being detected properly.
+
 # 1.0.0 / 2014-07-12
 * [FEATURE] Remove Meducation specific code and bump to 1.0.0
 
