@@ -20,9 +20,20 @@ module Larva
       assert_equal action, processor.action
     end
 
+    def test_initialize_should_extract_action_and_entity_when_strings
+      entity = "media_file"
+      action = "processed"
+      id = "8"
+      message = {'entity' => entity, 'action' => action, 'id' => "8"}
+      processor = Processor.new(message)
+      assert_equal entity, processor.entity
+      assert_equal action, processor.action
+      assert_equal id, processor.message[:id]
+    end
+
     def test_process_logs_message
       message = {entity: "media_file", action: "processed", media_file_id: "8"}
-      output = "Processing message: #{message}"
+      output = "Processing message: #{message.stringify_keys}"
       Propono.config.logger.stubs(:info)
       Propono.config.logger.expects(:info).with(output)
       NormalProcessor.process(message)
@@ -42,7 +53,7 @@ module Larva
 
     def test_process_logs_success
       message = {entity: "media_file", action: "processed", media_file_id: "8"}
-      output = "Message Processed: #{message}"
+      output = "Message Processed: #{message.stringify_keys}"
       Propono.config.logger.stubs(:info)
       Propono.config.logger.expects(:info).with(output)
       NormalProcessor.any_instance.expects(:process).returns(true)
