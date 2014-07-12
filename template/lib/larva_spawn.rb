@@ -1,5 +1,4 @@
 require 'larva'
-#require 'meducation_sdk'
 
 require 'larva_spawn/configuration'
 require 'larva_spawn/larva_spawn_error'

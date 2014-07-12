@@ -18,17 +18,6 @@ module Larva
       Filum.setup(@logfile)
       Filum.logger.info "Configuring Daemon"
 
-      if meducation_sdk_config = parse_config_file('meducation-sdk.yml')
-        MeducationSDK.config do |config|
-          config.access_id  = meducation_sdk_config[:access_id]
-
-          # Don't use fetch for these as nil values might be deliberately passed it
-          config.secret_key = @options[:meducation_sdk_secret_key] || meducation_sdk_config[:secret_key]
-          config.endpoint   = @options[:meducation_sdk_endpoint ] || "http://localhost:3000/spi" if @env == 'development'
-          config.logger     = Filum.logger
-        end
-      end
-
       if propono_config = parse_config_file('propono.yml')
         Propono.config do |config|
           config.use_iam_profile  = propono_config[:use_iam_profile]
@@ -42,6 +31,8 @@ module Larva
           config.logger           = Filum.logger
         end
       end
+
+      after_configure if respond_to?(:after_configure)
     end
 
     private

@@ -12,8 +12,6 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'larva_spawn'
 
-#MeducationSDK.mock!
-
 class Minitest::Test
   def setup
     super

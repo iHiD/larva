@@ -14,14 +14,6 @@ module Larva
       Mocker.mock!
     end
 
-    def test_loquor_is_setup
-      Mocker.mock!
-      assert_equal "http://localhost:3000/spi", MeducationSDK.config.endpoint
-      assert_equal "Daemon", MeducationSDK.config.access_id
-      assert_equal "foobar", MeducationSDK.config.secret_key
-      assert_equal Filum.logger, MeducationSDK.config.logger
-    end
-
     def test_propono_is_configured
       Mocker.mock!
       assert_equal Filum.logger, Propono.config.logger

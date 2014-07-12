@@ -1,6 +1,0 @@
-development:
-  access_id: LarvaSpawn
-  secret_key: 'foobar'
-
-production:
-  access_id: LarvaSpawn

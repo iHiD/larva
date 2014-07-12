@@ -9,7 +9,6 @@ module Larva
 
     # Allowed Options:
     #   :env - Defaults to development
-    #   :meducation_sdk_secret_key - Defauls to looking in config file
     def initialize(processors, options = {})
       @processors = processors
       @options = options
