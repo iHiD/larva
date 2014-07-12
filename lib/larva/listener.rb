@@ -15,7 +15,7 @@ module Larva
       queue_name = "#{topic_name}"
       Propono.config.logger.info "Starting to listen to queue #{queue_name}"
       Propono.listen_to_queue("#{queue_name}") do |message, context|
-        Propono.config.logger.context_id = context[:id]
+        Propono.config.logger.context_id = context[:id] if Propono.config.logger.respond_to?(:context_id=)
         Propono.config.logger.info "Received message: #{message}"
         processor.process(message)
       end
