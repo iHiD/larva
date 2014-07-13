@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Larva by meducation</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Larva</h1>
+        <h2>A Basis for Pub/Sub Daemons with Scaffold Generation.</h2>
+        <a href="https://github.com/meducation/larva" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="larva" class="anchor" href="#larva"><span class="octicon octicon-link"></span></a>Larva</h1>
+
+<p><a href="https://travis-ci.org/meducation/larva"><img src="https://travis-ci.org/meducation/larva.png" alt="Build Status"></a>
+<a href="https://gemnasium.com/meducation/larva"><img src="https://gemnasium.com/meducation/larva.png?travis" alt="Dependencies"></a>
+<a href="https://codeclimate.com/github/meducation/larva"><img src="https://codeclimate.com/github/meducation/larva.png" alt="Code Climate"></a></p>
+
+<p>Larva is a Ruby daemon builder based on top of the <a href="github.com/meducation/propono">Propono</a> <a href="http://en.wikipedia.org/wiki/Publish-subscribe_pattern">pub/sub</a> library and the <a href="github.com/meducation/filum">Filum</a> logging library.</p>
+
+<p>It is the foundation for daemons in Meducation's infrastructure.</p>
+
+<p>Getting started is simple. Just install the gem and run </p>
+
+<div class="highlight highlight-ruby"><pre><span class="n">larva</span> <span class="n">spawn</span> <span class="n">my_daemon_name</span>
+</pre></div>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>If you want to add this to an existing daemon, add this line to your application's Gemfile:</p>
+
+<pre><code>gem 'larva'
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle install
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Larva provides you with listeners, processors and a worker pool to quickly build an application that listens and responds to Propono messages.</p>
+
+<p>Here is a sample application that forms the basis of a rake task for most Meducation daemons.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s1">'larva'</span>
+
+<span class="c1"># Setup Config for Filum and Propono</span>
+
+<span class="k">class</span> <span class="nc">MyProcessor</span> <span class="o">&lt;</span> <span class="no">Larva</span><span class="o">::</span><span class="no">Processor</span>
+  <span class="k">def</span> <span class="nf">comment_created</span>
+    <span class="c1"># I get called when the message is received :)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">processors</span> <span class="o">=</span> <span class="p">{</span><span class="ss">my_topic</span><span class="p">:</span> <span class="no">MyProcessor</span><span class="p">}</span>
+<span class="no">Larva</span><span class="o">::</span><span class="no">WorkerPool</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">processors</span><span class="p">,</span> <span class="s2">"queue-suffix"</span><span class="p">)</span>
+
+<span class="c1"># In another application...</span>
+<span class="no">Propono</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="ss">:my_topic</span><span class="p">,</span> <span class="p">{</span><span class="ss">entity</span><span class="p">:</span> <span class="s2">"comment"</span><span class="p">,</span> <span class="ss">action</span><span class="p">:</span> <span class="s2">"created"</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+
+</pre></div>
+
+<h3>
+<a name="listeners" class="anchor" href="#listeners"><span class="octicon octicon-link"></span></a>Listeners</h3>
+
+<p>Larva Listeners provide an easy way of listening to a Propono topic and processing the message, complete with lots of logging through Filum.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="no">Larva</span><span class="o">::</span><span class="no">Listener</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="ss">:my_topic</span><span class="p">,</span> <span class="n">processor</span><span class="p">,</span> <span class="s2">"queue_suffix"</span><span class="p">)</span>
+</pre></div>
+
+<p>This will listen for messages on :my_topic and pass them to <code>processor.process</code>. It will log what is happening via Filum.</p>
+
+<h3>
+<a name="processors" class="anchor" href="#processors"><span class="octicon octicon-link"></span></a>Processors</h3>
+
+<p>Processors are used by listeners to handle the messages that are received.</p>
+
+<p>If your messages have an <code>entity</code> and <code>action</code> fields, then you can create methods named `#{entity}_#{action}, which get called when a message is received.</p>
+
+<p>For example:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="k">class</span> <span class="nc">MyProcessor</span> <span class="o">&lt;</span> <span class="no">Larva</span><span class="o">::</span><span class="no">Processor</span>
+  <span class="k">def</span> <span class="nf">comment_created</span>
+    <span class="c1"># I get called for the first message</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="no">Larva</span><span class="o">::</span><span class="no">Listener</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="ss">:my_topic</span><span class="p">,</span> <span class="no">MyProcessor</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+<span class="no">Propono</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="ss">:my_topic</span><span class="p">,</span> <span class="p">{</span><span class="ss">entity</span><span class="p">:</span> <span class="s2">"comment"</span><span class="p">,</span> <span class="ss">action</span><span class="p">:</span> <span class="s2">"created"</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+</pre></div>
+
+<p>If those methods do not exist, then a method called <code>process</code> is called. This method has acccess to <code>message</code>, <code>action</code>, <code>entity</code> and <code>id</code> fields. If this returns true, then the message is considered processed, else if it returns false, an error wil be logged.</p>
+
+<p>For example:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="k">class</span> <span class="nc">MyProcessor</span>
+  <span class="k">def</span> <span class="nf">process</span>
+    <span class="k">if</span> <span class="n">message</span><span class="o">[</span><span class="ss">:foo</span><span class="o">]</span> <span class="o">==</span> <span class="n">bar</span>
+      <span class="c1"># Larva will consider this message processed successfully</span>
+      <span class="kp">true</span>
+    <span class="k">else</span>
+      <span class="c1"># An error is logged for this message</span>
+      <span class="kp">false</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="no">Larva</span><span class="o">::</span><span class="no">Listener</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="ss">:my_topic</span><span class="p">,</span> <span class="no">MyProcessor</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+<span class="no">Propono</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="ss">:my_topic</span><span class="p">,</span> <span class="p">{</span><span class="ss">foo</span><span class="p">:</span> <span class="s2">"bar"</span><span class="p">}</span> <span class="c1"># -&gt; Will be logged as a success</span>
+<span class="no">Propono</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="ss">:my_topic</span><span class="p">,</span> <span class="p">{</span><span class="ss">foo</span><span class="p">:</span> <span class="s2">"meh"</span><span class="p">}</span> <span class="c1"># -&gt; Will be logged as unprocessed.</span>
+</pre></div>
+
+<h3>
+<a name="worker-pool" class="anchor" href="#worker-pool"><span class="octicon octicon-link"></span></a>Worker Pool</h3>
+
+<p>The worker pool creates a listener for each topic, and proxies messages to the associated processors. If any processors die, the application will die.</p>
+
+<p>Creating a worker pool is trivial:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="n">processors</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">my_topic_1</span><span class="p">:</span> <span class="no">MyProcessor1</span>
+  <span class="ss">my_topic_2</span><span class="p">:</span> <span class="no">MyProcessor2</span>
+<span class="p">}</span>
+<span class="no">Larva</span><span class="o">::</span><span class="no">WorkerPool</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">processors</span><span class="p">,</span> <span class="s2">"queue-suffix"</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="is-it-any-good" class="anchor" href="#is-it-any-good"><span class="octicon octicon-link"></span></a>Is it any good?</h3>
+
+<p><a href="http://news.ycombinator.com/item?id=3067434">Yes.</a></p>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Firstly, thank you!! <img class="emoji" title=":heart:" alt=":heart:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2764-fe0f.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":sparkling_heart:" alt=":sparkling_heart:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f496.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":heart:" alt=":heart:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2764-fe0f.png" height="20" width="20" align="absmiddle"></p>
+
+<p>We'd love to have you involved. Please read our <a href="https://github.com/meducation/larva/tree/master/CONTRIBUTING.md">contributing guide</a> for information on how to get stuck in.</p>
+
+<h3>
+<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h3>
+
+<p>This project is managed by the <a href="http://company.meducation.net/about#team">Meducation team</a>.</p>
+
+<p>These individuals have come up with the ideas and written the code that made this possible:</p>
+
+<ul>
+<li><a href="http://github.com/iHiD">Jeremy Walker</a></li>
+<li><a href="http://github.com/malcyL">Malcolm Landon</a></li>
+<li><a href="http://github.com/ccare">Charles Care</a></li>
+<li><a href="http://github.com/mmmmmrob">Rob Styles</a></li>
+</ul><h2>
+<a name="licence" class="anchor" href="#licence"><span class="octicon octicon-link"></span></a>Licence</h2>
+
+<p>Copyright (C) 2013-2014 New Media Education Ltd</p>
+
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.</p>
+
+<p>A copy of the GNU Affero General Public License is available in <a href="https://github.com/meducation/larva/blob/master/LICENCE.md">Licence.md</a>
+along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/meducation/larva/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/meducation/larva/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/meducation/larva"></a> is maintained by <a href="https://github.com/meducation">meducation</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
