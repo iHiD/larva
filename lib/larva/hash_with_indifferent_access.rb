@@ -394,7 +394,7 @@ module ActiveSupport
           if options[:for] == :to_hash
             value.to_hash
           else
-            value.nested_under_indifferent_access
+            HashWithIndifferentAccess.new(value)
           end
         elsif value.is_a?(Array)
           unless options[:for] == :assignment

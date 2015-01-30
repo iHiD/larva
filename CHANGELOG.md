@@ -1,3 +1,6 @@
+# 1.1.3 / 2015-01-30
+* [BUGFIX] Fix issue with HashWithIndifferentAccess.
+
 # 1.1.2 / 2015-01-30
 * [BUGFIX] Fix issue with daemon creator failing due to lack of inflector support from ActiveSupport.
 
