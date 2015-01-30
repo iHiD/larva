@@ -3,6 +3,7 @@ require 'propono'
 
 require_relative 'larva/hash_with_indifferent_access' unless defined?(HashWithIndifferentAccess)
 
+require_relative 'larva/utils'
 require_relative 'larva/configuration'
 require_relative 'larva/configurator'
 require_relative 'larva/mocker'
