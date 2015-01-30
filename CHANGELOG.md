@@ -1,3 +1,6 @@
+# 1.1.0 / 2015-01-30
+* [FEATURE] Remove ActiveSupport Dependency
+
 # 1.0.1 / 2014-07-12
 * [BUGFIX] Don't require that the logger is Filum.
 * [BUGFIX] Fix bug with message keys not being detected properly.

@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'active_support/core_ext'
 
 module Larva
   class DaemonCreator

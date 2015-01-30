@@ -1,4 +1,3 @@
-require 'active_support/core_ext'
 require 'filum'
 require 'propono'
 
