@@ -1,3 +1,5 @@
+require 'erb'
+
 module Larva
   class Configurator
 
@@ -37,7 +39,7 @@ module Larva
 
     private
     def parse_config_file(filename)
-      contents = File.read("#{@config_dir}/#{filename}")
+      contents = ERB.new(File.read(File.join(@config_dir, filename))).result
       hash = YAML::load(contents)
       hash.stringify_keys[@env].symbolize_keys
     rescue
