@@ -1,3 +1,6 @@
+# 1.2.0 / 2015-08-27
+* [FEATURE] Interpolate erb on propono configuration yml (@stevenbarragan)
+
 # 1.1.3 / 2015-01-30
 * [BUGFIX] Fix issue with HashWithIndifferentAccess.
 
