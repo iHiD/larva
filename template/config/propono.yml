@@ -1,6 +1,6 @@
 development:
-  access_key: MY-DEV-ACCESS-KEY
-  secret_key: MY-DEV-SECRET-KEY
+  access_key: <%= 'MY-DEV-ACCESS-KEY' %>
+  secret_key: <%= 'MY-DEV-SECRET-KEY' %>
   region: eu-west-1
   application_name: development_larva_spawn
   queue_suffix:
