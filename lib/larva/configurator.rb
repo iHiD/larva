@@ -20,19 +20,9 @@ module Larva
       Filum.setup(@logfile)
       Filum.logger.info "Configuring Daemon"
 
-      if propono_config = parse_config_file('propono.yml')
-        Propono.config do |config|
-          config.use_iam_profile  = propono_config[:use_iam_profile]
-          config.access_key       = propono_config[:access_key]
-          config.secret_key       = propono_config[:secret_key]
-          config.queue_region     = propono_config[:region]
-          config.application_name = propono_config[:application_name]
-          config.queue_suffix     = propono_config[:queue_suffix]
-          config.udp_host         = "pergo.meducation.net"
-          config.udp_port         = "9732"
-          config.logger           = Filum.logger
-        end
-      end
+      propono_config = parse_config_file('propono.yml')
+
+      propono_setup(propono_config)
 
       after_configure if respond_to?(:after_configure)
     end
@@ -43,7 +33,16 @@ module Larva
       hash = YAML::load(contents)
       hash.stringify_keys[@env].symbolize_keys
     rescue
-      nil
+      Hash.new()
+    end
+
+    def propono_setup(propono_config)
+      Propono.config do |config|
+        config.queue_region = propono_config.delete(:region) # Backwards compatible with region key instead of queue_region
+        config.logger       = Filum.logger
+
+        propono_config.each { |key, value| config.send("#{key}=", value) }
+      end
     end
   end
 end

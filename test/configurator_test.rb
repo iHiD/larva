@@ -37,6 +37,7 @@ module Larva
       assert_equal "pergo.meducation.net", Propono.config.udp_host
       assert_equal "9732", Propono.config.udp_port
       assert_equal Filum.logger, Propono.config.logger
+      assert_equal 1, Propono.config.max_retries
     end
 
     def test_propono_gets_config_with_env
@@ -47,6 +48,7 @@ module Larva
       assert_equal "pergo.meducation.net", Propono.config.udp_host
       assert_equal "9732", Propono.config.udp_port
       assert_equal Filum.logger, Propono.config.logger
+      assert_equal 1, Propono.config.max_retries
     end
   end
 end
