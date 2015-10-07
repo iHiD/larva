@@ -1,3 +1,6 @@
+# 1.3.0 / 2015-10-7
+* [FEATURE] Read all values from propono.yml (@stevenbarragan)
+
 # 1.2.0 / 2015-08-27
 * [FEATURE] Interpolate erb on propono configuration yml (@stevenbarragan)
 
