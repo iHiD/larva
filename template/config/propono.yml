@@ -4,9 +4,15 @@ development:
   region: eu-west-1
   application_name: development_larva_spawn
   queue_suffix:
+  max_retries: 1
+  udp_host: pergo.meducation.net
+  udp_port: '9732'
 
 production:
   use_iam_profile: true
   region: eu-west-1
   application_name: larva_spawn
   queue_suffix:
+  max_retries: 1
+  udp_host: pergo.meducation.net
+  udp_port: '9732'
