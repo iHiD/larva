@@ -1,8 +1,8 @@
 # Larva
 
-[![Build Status](https://travis-ci.org/ihid/larva.png)](https://travis-ci.org/ihid/larva)
-[![Dependencies](https://gemnasium.com/ihid/larva.png?travis)](https://gemnasium.com/ihid/larva)
-[![Code Climate](https://codeclimate.com/github/ihid/larva.png)](https://codeclimate.com/github/ihid/larva)
+[![Build Status](https://travis-ci.org/iHiD/larva.png)](https://travis-ci.org/iHiD/larva)
+[![Dependencies](https://gemnasium.com/iHiD/larva.png?travis)](https://gemnasium.com/iHiD/larva)
+[![Code Climate](https://codeclimate.com/github/iHiD/larva.png)](https://codeclimate.com/github/iHiD/larva)
 
 Larva is a Ruby daemon builder based on top of the [Propono](github.com/meducation/propono) [pub/sub](http://en.wikipedia.org/wiki/Publish-subscribe_pattern) library and the [Filum](github.com/meducation/filum) logging library.
 
